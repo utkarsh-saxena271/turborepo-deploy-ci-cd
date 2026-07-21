@@ -4,13 +4,8 @@ import {prisma} from '@repo/db'
 const app = express()
 
 
-app.post('/user', async(req,res)=>{
-    const user = await prisma.user.create({
-        data:{
-            username:Math.random().toString(),
-            password:Math.random().toString()
-        }
-    })
+app.get('/user', async(req,res)=>{
+    const user = await prisma.user.findFirst()
 
     res.status(200).json({
         user
