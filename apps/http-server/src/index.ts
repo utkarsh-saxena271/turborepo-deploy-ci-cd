@@ -3,6 +3,9 @@ import {prisma} from '@repo/db'
 
 const app = express()
 
+app.get('/', (req, res) => {
+    res.send("hey there")
+})
 
 app.get('/user', async(req,res)=>{
     const user = await prisma.user.findFirst()
