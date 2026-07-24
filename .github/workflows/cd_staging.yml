@@ -1,0 +1,24 @@
+name: Deploy to staging
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  redeploy_frontend:
+    name: Deploying everything to staging cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into server
+        run: |
+          echo ${{secrets.SSH_PVT_KEY}} &> ~/file.pem
+          ssh -i ~/file.pem ubuntu@13.235.79.118
+      - name: Pull latest changes
+        run : |
+          cd turborepo-deploy-ci-cd
+          git pull origin main
+      - name: Install and Build
+        run: |
+          bun install
+          bun run build
+      - name: Restart apps
+        run: pm2 restart all
