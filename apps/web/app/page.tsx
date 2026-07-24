@@ -3,6 +3,7 @@ export default async function Home() {
   const user = await prisma.user.findFirst()
   return (
     <div>
+      ci is finally working ngl
       {user?.id}
       <br/>
       {user?.username}
