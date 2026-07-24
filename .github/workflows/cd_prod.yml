@@ -1,0 +1,25 @@
+name: Deploy to staging
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  redeploy_frontend:
+    name: Deploying everything to staging cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into server and deploy
+        run: |
+          echo "${{secrets.SSH_PVT_KEY}}" > ~/file.pem
+          chmod 600 ~/file.pem
+          ssh -i ~/file.pem -o StrictHostKeyChecking=no ubuntu@43.204.228.30 << 'EOF'
+            export BUN_INSTALL="$HOME/.bun"
+            export PATH="$BUN_INSTALL/bin:$PATH"
+
+            cd turborepo-deploy-ci-cd
+            git fetch origin
+            git reset --hard origin/main
+            bun install
+            bun run build
+            pm2 restart all
+          EOF
