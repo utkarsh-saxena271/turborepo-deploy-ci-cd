@@ -4,6 +4,8 @@ export default async function Home() {
   return (
     <div>
       ci is finally working ngl
+
+      hell yeah, its workingg
       {user?.id}
       <br/>
       {user?.username}
