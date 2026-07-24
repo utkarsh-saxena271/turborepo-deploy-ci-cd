@@ -14,7 +14,8 @@ jobs:
           chmod 600 ~/file.pem
           ssh -i ~/file.pem -o StrictHostKeyChecking=no ubuntu@13.235.79.118 << 'EOF'
             cd turborepo-deploy-ci-cd
-            git pull origin main
+            git fetch origin
+            git reset --hard origin/main
             bun install
             bun run build
             pm2 restart all
