@@ -10,11 +10,12 @@ jobs:
     steps:
       - name: SSH into server and deploy
         run: |
-          echo ${{secrets.SSH_PVT_KEY}} &> ~/file.pem
+          echo "${{secrets.SSH_PVT_KEY}}" > ~/file.pem
           chmod 600 ~/file.pem
-          ssh -i ~/file.pem ubuntu@13.235.79.118
-          cd turborepo-deploy-ci-cd
-          git pull origin main
-          bun install
-          bun run build
-          pm2 restart all
+          ssh -i ~/file.pem -o StrictHostKeyChecking=no ubuntu@13.235.79.118 << 'EOF'
+            cd turborepo-deploy-ci-cd
+            git pull origin main
+            bun install
+            bun run build
+            pm2 restart all
+          EOF
