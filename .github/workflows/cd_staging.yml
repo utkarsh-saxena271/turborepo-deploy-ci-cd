@@ -11,6 +11,7 @@ jobs:
       - name: SSH into server and deploy
         run: |
           echo ${{secrets.SSH_PVT_KEY}} &> ~/file.pem
+          chmod 600 ~/file.pem
           ssh -i ~/file.pem ubuntu@13.235.79.118
           cd turborepo-deploy-ci-cd
           git pull origin main
