@@ -17,8 +17,7 @@ jobs:
             export PATH="$BUN_INSTALL/bin:$PATH"
 
             cd turborepo-deploy-ci-cd
-            git fetch origin
-            git reset --hard origin/main
+            git pull origin production
             bun install
             bun run build
             pm2 restart all
